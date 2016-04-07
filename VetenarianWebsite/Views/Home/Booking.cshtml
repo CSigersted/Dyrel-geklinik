@@ -1,0 +1,38 @@
+﻿@model VetenarianWebsite.Models.BookingView
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Booking</title>
+</head>
+<body>
+    <div>
+        
+        @Html.ActionLink("Logud", "Index")
+        <h1>Welcome @ViewBag.Username</h1>
+        @Html.ActionLink("Oversigt over fremtidige bookinger", "FutureBookings")
+        <h3>@ViewBag.Name</h3>
+        @using (Html.BeginForm("BookingFase1", "Home"))
+        {            
+            <h4>Vælg en dato: @Html.EditorFor(b => b.date)</h4>
+            <input type="submit" value="Søg ledige tider" class="btn btn-default" style="margin-bottom: 2%"/>
+        }
+        @using (Html.BeginForm("BookingFase2", "Home"))
+        {
+            <div style="margin-bottom: 2%">@Html.DropDownListFor(p => p.selectedPetID, Model.PetOwnersPets, "Vælg kæledyr")</div>
+            @Html.ListBoxFor(m => m.Time_ID, Model.AvailableTimes)
+            <h4>Vælg ydelse:</h4> 
+            @Html.ListBoxFor(j => j.Jo_ID, Model.JobItems)
+            <h4>Beskriv formål:</h4>
+            @Html.TextAreaFor(b => b.Description)
+            <input type="submit" value="Book tiden" class="btn btn-default" />
+        }
+
+    </div>
+</body>
+</html>

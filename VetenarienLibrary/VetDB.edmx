@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="VetenarianDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="consultation">
+          <Key>
+            <PropertyRef Name="consultation_ID" />
+          </Key>
+          <Property Name="consultation_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="startDate" Type="datetime" Nullable="false" />
+          <Property Name="endDate" Type="datetime" Nullable="false" />
+          <Property Name="descriptions" Type="varchar" MaxLength="500" />
+          <Property Name="vetDescriptions" Type="varchar" MaxLength="500" />
+          <Property Name="pet_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="consultation_Job">
+          <Key>
+            <PropertyRef Name="consultation" />
+            <PropertyRef Name="job" />
+          </Key>
+          <Property Name="consultation" Type="int" Nullable="false" />
+          <Property Name="job" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="job">
+          <Key>
+            <PropertyRef Name="job_ID" />
+          </Key>
+          <Property Name="job_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="char" MaxLength="200" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="pet">
+          <Key>
+            <PropertyRef Name="pet_ID" />
+          </Key>
+          <Property Name="pet_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="birthday" Type="datetime" />
+          <Property Name="sex" Type="bit" />
+          <Property Name="petOwner" Type="int" />
+          <Property Name="petSpecies" Type="int" />
+        </EntityType>
+        <EntityType Name="petOwner">
+          <Key>
+            <PropertyRef Name="petOwner_ID" />
+          </Key>
+          <Property Name="petOwner_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="addres" Type="varchar" MaxLength="100" />
+          <Property Name="phonenumber" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="petSpecies">
+          <Key>
+            <PropertyRef Name="petSpecies_ID" />
+          </Key>
+          <Property Name="petSpecies_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="char" MaxLength="50" />
+          <Property Name="checkupTime" Type="int" />
+        </EntityType>
+        <Association Name="FK__consultat__consu__36F11965">
+          <End Role="consultation" Type="Self.consultation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="consultation_Job" Type="Self.consultation_Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="consultation">
+              <PropertyRef Name="consultation_ID" />
+            </Principal>
+            <Dependent Role="consultation_Job">
+              <PropertyRef Name="consultation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__consultat__pet_I__3138400F">
+          <End Role="pet" Type="Self.pet" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="consultation" Type="Self.consultation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pet">
+              <PropertyRef Name="pet_ID" />
+            </Principal>
+            <Dependent Role="consultation">
+              <PropertyRef Name="pet_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__consultatio__job__37E53D9E">
+          <End Role="job" Type="Self.job" Multiplicity="1" />
+          <End Role="consultation_Job" Type="Self.consultation_Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="job">
+              <PropertyRef Name="job_ID" />
+            </Principal>
+            <Dependent Role="consultation_Job">
+              <PropertyRef Name="job" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__pet__petOwner__2D67AF2B">
+          <End Role="petOwner" Type="Self.petOwner" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="pet" Type="Self.pet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="petOwner">
+              <PropertyRef Name="petOwner_ID" />
+            </Principal>
+            <Dependent Role="pet">
+              <PropertyRef Name="petOwner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__pet__petSpecies__2E5BD364">
+          <End Role="petSpecies" Type="Self.petSpecies" Multiplicity="0..1" />
+          <End Role="pet" Type="Self.pet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="petSpecies">
+              <PropertyRef Name="petSpecies_ID" />
+            </Principal>
+            <Dependent Role="pet">
+              <PropertyRef Name="petSpecies" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VetenarianDBModelStoreContainer">
+          <EntitySet Name="consultation" EntityType="Self.consultation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="consultation_Job" EntityType="Self.consultation_Job" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="job" EntityType="Self.job" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pet" EntityType="Self.pet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="petOwner" EntityType="Self.petOwner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="petSpecies" EntityType="Self.petSpecies" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__consultat__consu__36F11965" Association="Self.FK__consultat__consu__36F11965">
+            <End Role="consultation" EntitySet="consultation" />
+            <End Role="consultation_Job" EntitySet="consultation_Job" />
+          </AssociationSet>
+          <AssociationSet Name="FK__consultat__pet_I__3138400F" Association="Self.FK__consultat__pet_I__3138400F">
+            <End Role="pet" EntitySet="pet" />
+            <End Role="consultation" EntitySet="consultation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__consultatio__job__37E53D9E" Association="Self.FK__consultatio__job__37E53D9E">
+            <End Role="job" EntitySet="job" />
+            <End Role="consultation_Job" EntitySet="consultation_Job" />
+          </AssociationSet>
+          <AssociationSet Name="FK__pet__petOwner__2D67AF2B" Association="Self.FK__pet__petOwner__2D67AF2B">
+            <End Role="petOwner" EntitySet="petOwner" />
+            <End Role="pet" EntitySet="pet" />
+          </AssociationSet>
+          <AssociationSet Name="FK__pet__petSpecies__2E5BD364" Association="Self.FK__pet__petSpecies__2E5BD364">
+            <End Role="petSpecies" EntitySet="petSpecies" />
+            <End Role="pet" EntitySet="pet" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VetenarianDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="consultation">
+          <Key>
+            <PropertyRef Name="consultation_ID" />
+          </Key>
+          <Property Name="consultation_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="startDate" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="endDate" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="descriptions" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="vetDescriptions" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="pet_ID" Type="Int32" />
+          <NavigationProperty Name="pet" Relationship="Self.FK__consultat__pet_I__1E5A75C5" FromRole="consultation" ToRole="pet" />
+          <NavigationProperty Name="jobs" Relationship="Self.consultation_Job" FromRole="consultation" ToRole="job" />
+        </EntityType>
+        <EntityType Name="job">
+          <Key>
+            <PropertyRef Name="job_ID" />
+          </Key>
+          <Property Name="job_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="200" FixedLength="true" Unicode="false" />
+          <Property Name="price" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="consultations" Relationship="Self.consultation_Job" FromRole="job" ToRole="consultation" />
+        </EntityType>
+        <EntityType Name="pet">
+          <Key>
+            <PropertyRef Name="pet_ID" />
+          </Key>
+          <Property Name="pet_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="birthday" Type="DateTime" Precision="3" />
+          <Property Name="sex" Type="Boolean" />
+          <Property Name="petOwner" Type="Int32" />
+          <Property Name="petSpecies" Type="Int32" />
+          <NavigationProperty Name="consultations" Relationship="Self.FK__consultat__pet_I__1E5A75C5" FromRole="pet" ToRole="consultation" />
+          <NavigationProperty Name="petOwner1" Relationship="Self.FK__pet__petOwner__1A89E4E1" FromRole="pet" ToRole="petOwner" />
+          <NavigationProperty Name="petSpecy" Relationship="Self.FK__pet__petSpecies__1B7E091A" FromRole="pet" ToRole="petSpecies" />
+        </EntityType>
+        <EntityType Name="petOwner">
+          <Key>
+            <PropertyRef Name="petOwner_ID" />
+          </Key>
+          <Property Name="petOwner_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="addres" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="phonenumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="pets" Relationship="Self.FK__pet__petOwner__1A89E4E1" FromRole="petOwner" ToRole="pet" />
+        </EntityType>
+        <EntityType Name="petSpecy">
+          <Key>
+            <PropertyRef Name="petSpecies_ID" />
+          </Key>
+          <Property Name="petSpecies_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="checkupTime" Type="Int32" />
+          <NavigationProperty Name="pets" Relationship="Self.FK__pet__petSpecies__1B7E091A" FromRole="petSpecies" ToRole="pet" />
+        </EntityType>
+        <Association Name="FK__consultat__pet_I__1E5A75C5">
+          <End Role="pet" Type="Self.pet" Multiplicity="0..1" />
+          <End Role="consultation" Type="Self.consultation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pet">
+              <PropertyRef Name="pet_ID" />
+            </Principal>
+            <Dependent Role="consultation">
+              <PropertyRef Name="pet_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__pet__petOwner__1A89E4E1">
+          <End Role="petOwner" Type="Self.petOwner" Multiplicity="0..1" />
+          <End Role="pet" Type="Self.pet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="petOwner">
+              <PropertyRef Name="petOwner_ID" />
+            </Principal>
+            <Dependent Role="pet">
+              <PropertyRef Name="petOwner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__pet__petSpecies__1B7E091A">
+          <End Role="petSpecies" Type="Self.petSpecy" Multiplicity="0..1" />
+          <End Role="pet" Type="Self.pet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="petSpecies">
+              <PropertyRef Name="petSpecies_ID" />
+            </Principal>
+            <Dependent Role="pet">
+              <PropertyRef Name="petSpecies" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="consultation_Job">
+          <End Role="consultation" Type="Self.consultation" Multiplicity="*" />
+          <End Role="job" Type="Self.job" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="VetenarianDBEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="consultations" EntityType="Self.consultation" />
+          <EntitySet Name="jobs" EntityType="Self.job" />
+          <EntitySet Name="pets" EntityType="Self.pet" />
+          <EntitySet Name="petOwners" EntityType="Self.petOwner" />
+          <EntitySet Name="petSpecies" EntityType="Self.petSpecy" />
+          <AssociationSet Name="FK__consultat__pet_I__1E5A75C5" Association="Self.FK__consultat__pet_I__1E5A75C5">
+            <End Role="pet" EntitySet="pets" />
+            <End Role="consultation" EntitySet="consultations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__pet__petOwner__1A89E4E1" Association="Self.FK__pet__petOwner__1A89E4E1">
+            <End Role="petOwner" EntitySet="petOwners" />
+            <End Role="pet" EntitySet="pets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__pet__petSpecies__1B7E091A" Association="Self.FK__pet__petSpecies__1B7E091A">
+            <End Role="petSpecies" EntitySet="petSpecies" />
+            <End Role="pet" EntitySet="pets" />
+          </AssociationSet>
+          <AssociationSet Name="consultation_Job" Association="Self.consultation_Job">
+            <End Role="consultation" EntitySet="consultations" />
+            <End Role="job" EntitySet="jobs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VetenarianDBModelStoreContainer" CdmEntityContainer="VetenarianDBEntities1">
+          <EntitySetMapping Name="consultations">
+            <EntityTypeMapping TypeName="VetenarianDBModel.consultation">
+              <MappingFragment StoreEntitySet="consultation">
+                <ScalarProperty Name="consultation_ID" ColumnName="consultation_ID" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="descriptions" ColumnName="descriptions" />
+                <ScalarProperty Name="vetDescriptions" ColumnName="vetDescriptions" />
+                <ScalarProperty Name="pet_ID" ColumnName="pet_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="jobs">
+            <EntityTypeMapping TypeName="VetenarianDBModel.job">
+              <MappingFragment StoreEntitySet="job">
+                <ScalarProperty Name="job_ID" ColumnName="job_ID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pets">
+            <EntityTypeMapping TypeName="VetenarianDBModel.pet">
+              <MappingFragment StoreEntitySet="pet">
+                <ScalarProperty Name="pet_ID" ColumnName="pet_ID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="birthday" ColumnName="birthday" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="petOwner" ColumnName="petOwner" />
+                <ScalarProperty Name="petSpecies" ColumnName="petSpecies" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="petOwners">
+            <EntityTypeMapping TypeName="VetenarianDBModel.petOwner">
+              <MappingFragment StoreEntitySet="petOwner">
+                <ScalarProperty Name="petOwner_ID" ColumnName="petOwner_ID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="addres" ColumnName="addres" />
+                <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="petSpecies">
+            <EntityTypeMapping TypeName="VetenarianDBModel.petSpecy">
+              <MappingFragment StoreEntitySet="petSpecies">
+                <ScalarProperty Name="petSpecies_ID" ColumnName="petSpecies_ID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="checkupTime" ColumnName="checkupTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="consultation_Job" TypeName="VetenarianDBModel.consultation_Job" StoreEntitySet="consultation_Job">
+            <EndProperty Name="consultation">
+              <ScalarProperty Name="consultation_ID" ColumnName="consultation" />
+            </EndProperty>
+            <EndProperty Name="job">
+              <ScalarProperty Name="job_ID" ColumnName="job" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

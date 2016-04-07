@@ -1,0 +1,20 @@
+﻿@model VetenarianWebsite.Models.BookingView
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FutureBookings</title>
+</head>
+<body>
+    <div>
+        @Html.ActionLink("Tilbage til bookinger", "Booking")
+        <h1>Fremtidige bookinger</h1>
+        @Html.ListBoxFor(m => m.ConsultationID, Model.ConsltationItems)
+    </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="SpecialiseringsEksamen2015.Pages.BookingPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="700">
+    <Grid>
+        <ListBox Name="ConsultationListBox" HorizontalAlignment="Left" Height="291" Margin="10,199,0,0" VerticalAlignment="Top" Width="270" SelectionChanged="ConsultationListBox_SelectionChanged"/>
+        <Calendar HorizontalAlignment="Left" Margin="57,10,0,0" VerticalAlignment="Top" SelectedDatesChanged="Calendar_SelectedDatesChanged"/>
+        <TextBox Name="VetDescriptionTextBox" HorizontalAlignment="Left" Height="159" Margin="334,302,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="356"/>
+        <Label Content="Dyrelæges beskrivelse:" HorizontalAlignment="Left" Margin="334,271,0,0" VerticalAlignment="Top"/>
+        <Button Name="SaveButton" Content="Gem" HorizontalAlignment="Left" Margin="334,468,0,0" VerticalAlignment="Top" Width="75" Click="SaveButton_Click"/>
+        <ListBox Name="HistoryListBox" HorizontalAlignment="Left" Height="256" Margin="334,10,0,0" VerticalAlignment="Top" Width="356">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Background="LightGray" Margin="5" Width="340">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock TextWrapping="Wrap" Text="{Binding Path=startDate}" Margin="5"/>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding Path=endDate}" Margin="5"/>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Top">
+                            <TextBlock TextWrapping="Wrap" Text="{Binding Path=descriptions}" Margin="5"/>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding Path=vetDescriptions}" Margin="5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Content="Tilbage til menu" HorizontalAlignment="Left" Margin="560,468,0,0" VerticalAlignment="Top" Width="130" Click="Button_Click"/>
+    </Grid>
+</UserControl>
